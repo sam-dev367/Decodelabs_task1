@@ -1,0 +1,53 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int a;
+        int guess;
+        int attempts;
+        String response;
+
+        do {
+            a = (int)(random.nextDouble() * 100) + 1;
+            attempts = 10; // or 1050 if you prefer
+            
+            System.out.println("Guess the number between 1 to 100");
+            
+            while(attempts > 0) {
+                System.out.print("Enter your guess: ");
+                guess = scanner.nextInt();
+                try {
+                    if(guess < 1 || guess > 100) {
+                        throw new IllegalArgumentException("Invalid input!");
+                    }
+                } catch(IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    continue;
+                }
+                
+                if(guess == a) {
+                    System.out.println("Congratulations! You guessed the number: " + a);
+                    break;
+                } else {
+                    attempts--;
+                    if(attempts > 0) {
+                        System.out.println("Try again! You have " + attempts + " attempts left.");
+                        System.out.println("Hint: The number is " + (a > guess ? "greater than " : "less than ") + guess);
+                    } else {
+                        System.out.println("Sorry! You've used all your attempts. The number was: " + a);
+                    }
+                }
+            }
+
+            System.out.print("Do you want to play again? (yes/no): ");
+            response = scanner.next();
+            
+        } while (response.equalsIgnoreCase("yes"));
+
+        System.out.println("Thank you for playing!");
+        scanner.close();
+    }
+}
